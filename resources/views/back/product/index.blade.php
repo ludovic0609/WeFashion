@@ -39,7 +39,7 @@
             
             <div class="col-2">{{ $product->price }} €</div>
             <div class="col-2">
-                @if ($product->product_visible)
+                @if ($product->product_visible=='1')
                     <span class="badge badge-success">Visible</span>
                 @else
                     <span class="badge badge-danger">Non visible</span>

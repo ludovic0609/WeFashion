@@ -40,7 +40,7 @@ class FrontController extends Controller
     
     public function index(){
         
-        $products= Product::orderBy('id','DESC')->paginate($this->paginate);
+        $products= Product::where('product_visible', '1')->orderBy('id','DESC')->paginate($this->paginate);
         
         
 
@@ -64,7 +64,7 @@ class FrontController extends Controller
     public function search(){
         $search=request()->get('search');
         
-        $products= Product::where('name', 'LIKE', '%' . $search . '%')->orderBy('id','DESC')->paginate($this->paginate);
+        $products= Product::where('name', 'LIKE', '%' . $search . '%')->where('product_visible', '1')->orderBy('id','DESC')->paginate($this->paginate);
   
         return view('front.index', ['products' => $products,'search'=>$search ]);
     }
@@ -77,7 +77,7 @@ class FrontController extends Controller
         $counts=$results->count();
         */
 
-        $products= Product::where('state_product','1')->paginate($this->paginate);
+        $products= Product::where('state_product','1')->where('product_visible', '1')->paginate($this->paginate);
 
        $active_discount='discount';
 
@@ -100,7 +100,7 @@ class FrontController extends Controller
         $counts=$results->count();
         */
 
-        $products= Product::where('category_id',$id)->paginate($this->paginate);
+        $products= Product::where('category_id',$id)->where('product_visible', '1')->paginate($this->paginate);
         $categories = Category::all()->where("id",$id)->first();
         $active_categorie= $categories->name;
 

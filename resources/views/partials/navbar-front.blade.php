@@ -48,10 +48,11 @@
                     {{ csrf_field() }}
                 </form>  
                 @else 
+                  
                 <form  action="{{ route('search') }}" method="GET">
                 <input type="text" name="search" placeholder="Rechercher" value="{{ $search or '' }}"><input type="submit" value="rechercher">
                 </form>
-
+                
                 @endif
             </ul>
 
