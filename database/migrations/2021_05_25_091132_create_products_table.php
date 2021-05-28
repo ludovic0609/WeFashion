@@ -22,13 +22,7 @@ class CreateProductsTable extends Migration
 
      
 
-            $table->enum('size',[
-                "XL",
-                "L",
-                "M",
-                "S",
-                "XS",
-            ])->default("M");
+            
 
             $table->boolean('product_visible')->default(false);
 

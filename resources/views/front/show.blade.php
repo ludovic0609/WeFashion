@@ -34,8 +34,8 @@
             @endif
             <select class="custom-select my-4">
                 <option selected disabled>Taille</option>
-                @foreach ($sizes as $size)
-                    <option value="{{ $size }}">{{ $size }}</option>
+                @foreach ($product->sizes as $size)
+                    <option value="{{ $size }}">{{ $size->name }}</option>
                 @endforeach
             </select>
             <button type="button" class="btn btn-secondary btn-lg">Acheter</button>

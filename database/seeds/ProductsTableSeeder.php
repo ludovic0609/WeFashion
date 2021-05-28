@@ -32,6 +32,8 @@ class ProductsTableSeeder extends Seeder
             // for every prooduct one category
             $category = Category::find(rand(1, 2));
             $product->category()->associate($category)->save();
+
+
           
                    
             // Add images
@@ -44,7 +46,9 @@ class ProductsTableSeeder extends Seeder
                 'link' => $file
             ]);
             
-            
+            $sizes =App\Size::pluck('id')->shuffle()->slice(0,rand(1,5))->all();
+
+            $product->sizes()->attach($sizes);
 
             /*
             $random=rand(1,10);

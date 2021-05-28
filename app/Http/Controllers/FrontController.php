@@ -118,11 +118,12 @@ class FrontController extends Controller
 
         $discount=$product->state_product;
         
-        $sizes = explode(',', $product->size);
+    
+        
         $categories = Category::all()->where("id",$product->category_id)->first();
 
 
-        return view('front.show', ['product' => $product, 'sizes' => $sizes ,'categories' => $categories,'discount' => $discount]);
+        return view('front.show', ['product' => $product ,'categories' => $categories,'discount' => $discount]);
     }
 
 

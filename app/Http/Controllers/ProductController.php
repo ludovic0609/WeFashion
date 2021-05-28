@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Category;
 use App\Picture;
+use App\Size;
 use DB;
 
 use Storage;
@@ -41,9 +42,11 @@ class ProductController extends Controller
     {
         //
         $categories = Category::pluck('name', 'id')->all();
+
+        $sizes = Size::pluck('name', 'id')->all();
         
 
-        return view('back.product.create', ['categories' => $categories]);
+        return view('back.product.create', ['categories' => $categories,'sizes' => $sizes]);
 
     }
 
@@ -63,7 +66,7 @@ class ProductController extends Controller
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|string',
             'price' => 'required',
-            'size' => 'required|string',
+            'sizes.*' => 'integer',
             'product_visible' => 'required',
             'state_product' => 'required',
             'reference' => 'required|string||min:16|max:16',
@@ -77,7 +80,7 @@ class ProductController extends Controller
         
         $product->category()->associate($request->category_id);
        
-        
+        $product->sizes()->attach($request->sizes);
         
         $category_id= $request->input('category_id');
 
@@ -125,10 +128,11 @@ class ProductController extends Controller
 
         $categories = Category::pluck('name', 'id')->all();
         
+        $sizes = Size::pluck('name', 'id')->all();
 
 
 
-        return view('back.product.edit', compact('product', 'categories'));
+        return view('back.product.edit', compact('product', 'categories','sizes'));
     }
 
     /**
@@ -145,7 +149,7 @@ class ProductController extends Controller
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|string',
             'price' => 'required',
-            'size' => 'required|string',
+            'sizes.*' => 'integer', // pour vérifier un tableau d'entiers il faut mettre authors.*
             'product_visible' => 'required',
             'state_product' => 'required',
             'reference' => 'required|string||min:16|max:16',
@@ -163,6 +167,8 @@ class ProductController extends Controller
         $category_id= $request->input('category_id');
 
         $product->update($request->all());
+
+        $product->sizes()->sync($request->sizes);
 
         $categories = Category::find($category_id);
 

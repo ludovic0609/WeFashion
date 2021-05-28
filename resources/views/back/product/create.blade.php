@@ -45,18 +45,17 @@
                     </select>
                     </div>
 
-                    <div class="form-select">
-                    <label for="categorie">Taille :</label>
-                    <select id="size" name="size">
-                    <option value="0" {{ is_null(old('size'))? 'selected' : '' }} >Aucune taille</option>
-                        
-                            <option @if(old('size')=='XL') selected @endif value="XL">XL</option>
-                            <option @if(old('size')=='L') selected @endif value="L">L</option>
-                            <option @if(old('size')=='M') selected @endif value="M">M</option>
-                            <option @if(old('size')=='S') selected @endif value="S">S</option>
-                            <option @if(old('size')=='XS') selected @endif value="XS">XS</option>
-                       
-                    </select>
+                    <h3>Choisissez une ou des tailles disponibles</h3>
+                    <div class="form-inline">
+                        <div class="form-group">
+                    @forelse($sizes as $id => $name)
+                        <label class="control-label" for="size{{$id}}">{{$name}}</label>
+                        <input name="sizes[]" value="{{$id}}"
+                                {{ ( !empty(old('sizes')) and in_array($id, old('sizes')) )? 'checked' : ''  }}
+                                type="checkbox" class="form-control" id="size{{$id}}">
+                    @empty
+                    @endforelse
+                        </div>
                     </div>
                     
             </div><!-- #end col md 6 -->

@@ -8,9 +8,10 @@ use App\Picture;
 
 class Product extends Model
 {
+    
     //
     protected $fillable = [
-        'name', 'description', 'price', 'size', 'product_visible', 'state_product', 'reference'
+        'name', 'description', 'price', 'product_visible', 'state_product', 'reference'
     ];
 
     
@@ -24,4 +25,10 @@ class Product extends Model
     public function picture() {
         return $this->hasOne(Picture::class);
     }
+
+     // Get the product's image
+     public function sizes() {
+        return $this->belongsToMany(Size::class);
+    }
+
 }
