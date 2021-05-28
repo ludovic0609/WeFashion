@@ -60,7 +60,7 @@
                 </div>
             </a>
             <div class="col-1">
-                <form action="{{ route('product.destroy', $product->id) }}" method="post" class="delete-form">
+                <form action="{{ route('product.destroy', $product->id) }}" method="post" class="delete_product">
                     <input name="_method" type="hidden" value="DELETE">
                     {{ csrf_field() }}
                     <button type="submit" class="bg-transparent border-0">
@@ -74,6 +74,7 @@
     
 @endsection
 
-@section('JS')
-    <script src="{{ asset('js/confirm.js') }}"></script>
+@section('scripts')
+    @parent
+    <script src="{{asset('js/confirm.js')}}"></script>
 @endsection
