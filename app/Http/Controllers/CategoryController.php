@@ -20,9 +20,7 @@ class CategoryController extends Controller
         //
         $categories = Category::paginate($this->paginate);
         
-        
-        
-        
+    
 
         return view('back.category.index', ['categories' => $categories]);
     }
