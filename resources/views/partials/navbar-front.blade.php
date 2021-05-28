@@ -37,7 +37,7 @@
         <ul class="nav navbar-nav navbar-right">
             {{-- renvoie true si vous êtes connecté --}}
                 @if(Auth::check())
-                <li><a href="{{route('toto')}}">Dashboard</a></li> 
+                
                 <li><a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -48,7 +48,10 @@
                     {{ csrf_field() }}
                 </form>  
                 @else 
-                <li><a href="{{route('login')}}">Login</a></li>   
+                <form  action="{{ route('search') }}" method="GET">
+                <input type="text" name="search" placeholder="Rechercher" value="{{ $search or '' }}"><input type="submit" value="rechercher">
+                </form>
+
                 @endif
             </ul>
 

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Product;
 use App\Category;
 use Cache;
+
+
 
 class FrontController extends Controller
 {
@@ -33,6 +36,7 @@ class FrontController extends Controller
 
     }
 
+   
     
     public function index(){
         
@@ -56,6 +60,15 @@ class FrontController extends Controller
 
 
     }
+
+    public function search(){
+        $search=request()->get('search');
+        
+        $products= Product::where('name', 'LIKE', '%' . $search . '%')->orderBy('id','DESC')->paginate($this->paginate);
+  
+        return view('front.index', ['products' => $products,'search'=>$search ]);
+    }
+
 
     public function indexDiscount(){
         /*

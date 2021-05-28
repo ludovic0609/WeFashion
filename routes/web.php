@@ -18,13 +18,12 @@ Route::get('/', function () {
 });
 
 // ici écrivez votre route
-Route::get('test', function(){
-    return "Je suis un test";
-    });
 
-
+Route::get('search', 'FrontController@search')->name('search');
 
     Route::get('/', 'FrontController@index')->name('homepage');
+
+    
     
     Route::get('discount', 'FrontController@indexDiscount')->name('discount');
 
