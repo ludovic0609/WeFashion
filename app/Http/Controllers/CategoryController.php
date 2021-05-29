@@ -113,17 +113,17 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         //
-        $products = Product::pluck('category_id')->all();
+        //$products = Product::pluck('category_id')->all();
         
-        $id=$category->id;
+        //$id=$category->id;
         
         
 
-        foreach ($products as $product){
+        /*foreach ($products as $product){
             DB::table('products')
                     ->where('category_id', $id)
                     ->update(['category_id' => NULL]);
-        }
+        }*/
 
         $category->delete();
 
