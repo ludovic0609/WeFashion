@@ -1,3 +1,24 @@
+
+### Projet back-end pour L'École Multimédia en Laravel 5.5
+
+Le MCD est situé à cette url : https://i.ibb.co/27h3Sq1/MCD-We-Fashion.png
+
+Procédure d'installation :
+1. Créez une base de données sur votre serveur par exemple : wefasion.
+2. Copiez le fichier ".env.example" qui est à la racine du projet et renommez-le en ".env"
+3. Remplissez-le fichier ".env" comme suit :
+* APP_NAME=WeFashion
+* APP_URL='Le chemin vers le dossier public' par exemple : APP_URL=DM20/WeFashion/public/
+* Dans la partie DB, saisissez les informations de connexion à votre base de données.
+DB_DATABASE=nom de votre base de donnée
+DB_USERNAME=root par default
+DB_PASSWORD=votre mot de passe
+
+4. Saisissez la commande "composer install" pour installer les dépendances de Composer.
+5. Saisissez la commande "php artisan migrate --seed" pour lancer les migrations et seeders pour peupler votre base de données.
+6. Pour pouvoir accéder à l'interface d'administration, tapez "/admin" à la fin de l'URL de la racine du site. Créez-vous un compte via "Register" ou utilisez l'identifiant : edouard@admin.fr et mot de passe : admin
+
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
