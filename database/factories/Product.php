@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 $factory->define(App\Product::class, function (Faker $faker) {
 
     
-
+    //Fake les données des produits.
     
     return [
         'name' => $faker->sentence(),

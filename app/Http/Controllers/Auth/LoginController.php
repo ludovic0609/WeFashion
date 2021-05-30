@@ -37,6 +37,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // si connexion etablie return vers le dashboard des produits
     protected function redirectTo()
     {
         return '/admin/product';

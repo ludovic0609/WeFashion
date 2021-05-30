@@ -17,17 +17,20 @@ class Product extends Model
     
 
     public function category(){
+        //un produit ne peux avoir qu'une catégorie
         return $this->belongsTo(Category::class);
         
       }
    
     // Get the product's image
     public function picture() {
+        //un produit a une seul image.
         return $this->hasOne(Picture::class);
     }
 
      // Get the product's image
      public function sizes() {
+         //les produits peuvent avoir plusieurs tailles.
         return $this->belongsToMany(Size::class);
     }
 

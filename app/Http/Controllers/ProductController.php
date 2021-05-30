@@ -14,6 +14,7 @@ use Storage;
 class ProductController extends Controller
 {
 
+    //nombres de produits par page
     protected $paginate = 15;
 
     /**
@@ -23,13 +24,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        //retourne tout les produits avec la pagination 
         $products = Product::paginate($this->paginate);
-        
+        //recupere toutes les categories
         $categories = Category::all();
         
         
-
+        //retourne la view de la gestion des produits avec en arguments les produits et les categories
         return view('back.product.index', ['products' => $products,'categories' => $categories]);
     }
 
@@ -38,9 +39,10 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //retourne la view pour crée un produit avec la listes des categories et la listes des tailles
     public function create()
     {
-        //
+        
         $categories = Category::pluck('name', 'id')->all();
 
         $sizes = Size::pluck('name', 'id')->all();
@@ -56,12 +58,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
-        //
-
-        
-        
+        // gestion du formulaire de creaton du produit
         $this->validate($request, [
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|string',
@@ -73,25 +73,27 @@ class ProductController extends Controller
             'category_id' => 'integer'
         ]);
 
-        
-
-        //dd($request->category_id);
+        //crée un produit si la validation du formulaire est correct
         $product=Product::create($request->all());
-        
+        //associe la categorie du produit et de la catégorie
         $product->category()->associate($request->category_id);
        
+         //associe la taille d'un produit avec les tailles.
         $product->sizes()->attach($request->sizes);
         
+        // recupere l'id de la catégorie du formulaire
         $category_id= $request->input('category_id');
 
+        // recupere la catégorie en fonction de l'id
         $categories = Category::find($category_id);
         
 
-        
+        //on recupere si une image a été envoyé
         $im = $request->file('picture');
 
+
         if (!empty($im)) {
-            
+            //retourne le lien de l'image avec la catégorie
             $link = $request->file('picture')->store($categories->name);
 
             // mettre à jour la table picture pour le lien vers l'image dans la base de données
@@ -100,6 +102,7 @@ class ProductController extends Controller
                 'title' => $request->title_image?? $request->title
             ]);
         }
+        //sauvegarde les produits.
         $product->save();
         return redirect()->route('adminProduct')->with('message', 'Produit bien ajouté');
     }
@@ -121,17 +124,20 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+        //retourne la view pour modifier un produit avec la listes des categories et la listes des tailles
     public function edit($id)
     {
-        //
+        //recupere un produit
         $product = Product::find($id);
 
+        //recupere les categories
         $categories = Category::pluck('name', 'id')->all();
         
+        //recuper les tailles
         $sizes = Size::pluck('name', 'id')->all();
 
 
-
+        //retourne la view pour modifier un produit avec en arguments le produit, les categories et les tailles.
         return view('back.product.edit', compact('product', 'categories','sizes'));
     }
 
@@ -144,12 +150,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //// gestion du formulaire de modifier du produit
         $this->validate($request, [
             'name' => 'required|string|min:5|max:100',
             'description' => 'required|string',
             'price' => 'required',
-            'sizes.*' => 'integer', // pour vérifier un tableau d'entiers il faut mettre authors.*
+            'sizes.*' => 'integer', // pour vérifier un tableau d'entiers il faut mettre sizes.*
             'product_visible' => 'required',
             'state_product' => 'required',
             'reference' => 'required|string||min:16|max:16',
@@ -157,21 +163,24 @@ class ProductController extends Controller
         ]);
 
 
-
-        
+        //recupere un produit
 
         $product = Product::find($id); // associé les fillables
 
         
-
+        //recupere la categorie selectionné
         $category_id= $request->input('category_id');
 
+        //modifie le produit
         $product->update($request->all());
 
+        //modifie les tailles du produit
         $product->sizes()->sync($request->sizes);
 
+        //recupere la categorie selectionné
         $categories = Category::find($category_id);
 
+        //modifie la catégorie 
         foreach ($product as $prod){
             DB::table('products')
                     ->where('id', $id)
@@ -182,10 +191,10 @@ class ProductController extends Controller
     
 
         
-
+        // recupere l'image
         $im = $request->file('picture');
 
-         // si on associe une image à un book 
+         // si on associe une image à un produit
          if (!empty($im)) {
  
             $link = $request->file('picture')->store($categories->name);
@@ -193,8 +202,7 @@ class ProductController extends Controller
             // suppression de l'image si elle existe 
             if(count(array($product->picture))>0){
 
-                //Storage::disk('local')->delete($product->picture->link); // supprimer physiquement l'image
-                //$product->picture()->delete(); // supprimer l'information en base de données
+        
                 $product->picture()->update([
                     'link' => $link,
                     'title' => $request->title_image?? $request->title
@@ -211,7 +219,8 @@ class ProductController extends Controller
             }
             
         }
-        
+        //produit sauvegardé
+        $product->save();
         return redirect()->route('adminProduct')->with('message', 'Produit bien modifié');
 
     }
@@ -225,13 +234,13 @@ class ProductController extends Controller
     public function destroy($id)
     {
 
-
+        //produit supprimé
         Product::destroy($id);
 
 
 
         
-
+        // retourne la view
         return redirect()->route('adminProduct')->with('message', 'Le produit à bien été supprimé.');
     }
 }

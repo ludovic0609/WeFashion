@@ -11,6 +11,7 @@ class Size extends Model
     ];
     //
     public function products(){
+        //les tailles sont sur plusieurs produits.
         return $this->belongsToMany(Product::class);
         }
 }

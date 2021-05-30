@@ -13,97 +13,51 @@ use App\Category;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 // ici écrivez votre route
 
+//route pour la recherche
 Route::get('search', 'FrontController@search')->name('search');
 
-    Route::get('/', 'FrontController@index')->name('homepage');
+//route pour afficher les produits
+Route::get('/', 'FrontController@index')->name('homepage');
 
     
-    
-    Route::get('discount', 'FrontController@indexDiscount')->name('discount');
+//route pour afficher les produits en solde
+Route::get('discount', 'FrontController@indexDiscount')->name('discount');
 
-    Route::get('category/{slug}', 'FrontController@indexCategory')->name('category');
+//route pour afficher les produits par category
+Route::get('category/{slug}', 'FrontController@indexCategory')->name('category');
 
-    //Route::get('admin/product', 'ProductController@index')->name("admin/product");
+//route pour gerer les produits
+Route::resource('admin/product', 'ProductController');
 
-    Route::resource('admin/product', 'ProductController');
-
-    Route::resource('admin/category', 'CategoryController');
-
-    Route::get('admin/product', 'ProductController@index')->name('adminProduct');
-   
-    Route::get('admin/category', 'CategoryController@index')->name('adminCategory');
+//route pour gerer les categories
+Route::resource('admin/category', 'CategoryController');
 
 
-    Route::get('product/{slug}', 'FrontController@show')->name('product');
-
-    Route::get('/home', 'HomeController@index')->name('home');
+Route::get('admin/product', 'ProductController@index')->name('adminProduct');
 
 
+Route::get('admin/category', 'CategoryController@index')->name('adminCategory');
+
+//route pour gerer un produit
+Route::get('product/{slug}', 'FrontController@show')->name('product');
 
 
-    /*
-    Route::put('admin/product/create', 'ProductController@create')->name("product.create");
-    Route::post('admin/product/edit/{slug}', 'ProductController@edit')->name("product.edit");
-    Route::delete('admin/product/destroy/{slug}', 'ProductController@destroy')->name("product.destroy");
-    */
 
 
-    Auth::routes(); // routes pour le login Laravel avec la commande php artisan make:auth
+Auth::routes(); // routes pour le login Laravel avec la commande php artisan make:auth
 
-    Route::resource('admin', 'Productcontroller');
+Route::resource('admin', 'Productcontroller');
 
     
 
-    Route::resource('admin', 'ProductController')->middleware('auth'); // middleware auth vérification d'un user authentifié
+Route::resource('admin', 'ProductController')->middleware('auth'); // middleware auth vérification d'un user authentifié
   
 
 
-
-
-    /*Route::middleware('auth')->namespace('Admin')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', 'ProductController@index')->name('home');
-    Route::resource('product', 'ProductController');
-    Route::resource('category', 'CategoryController');
-});*/
-
-
-
-
-
-//Route::get('product/{id}', 'FrontController@show');
-
-
-// retourne l'ensemble des produits
-
-/*
-Route::get('products', function(){
-
-    
-    return App\Product::all();
-    
-    });
-
-    // retourne un produit en fonction de son id
-Route::get('products/{id}', function($id){
-    return App\Product::find($id);
-    });
-
-        // retourne un produit pour homme
-Route::get('categorie/homme', function(){
-    return App\Product::where('categorie_id','1')->get();
-    });
-
-        // retourne un produit pour femme
-Route::get('categorie/femme', function(){
-    return App\Product::where('categorie_id','2')->get();
-    });
-*/
 
 
 

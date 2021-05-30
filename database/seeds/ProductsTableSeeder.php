@@ -29,43 +29,30 @@ class ProductsTableSeeder extends Seeder
             
 
             
-            // for every prooduct one category
+            // Pour un produit une catégorie attribué
             $category = Category::find(rand(1, 2));
             $product->category()->associate($category)->save();
 
 
           
                    
-            // Add images
+            // Ajouter une image
             $files = Storage::allFiles($category->name == "hommes" ? "hommes" : "femmes");
             $fileIndex = array_rand($files);
             $file = $files[$fileIndex];
 
+            //cree une image par produit
             $product->picture()->create([
                 'title' => 'Titre de l\'image',
                 'link' => $file
             ]);
-            
+            //genere aleatoirement des tailles par produit, de 1 à 5 possible tailles
             $sizes =App\Size::pluck('id')->shuffle()->slice(0,rand(1,5))->all();
 
+            //associe les tailles avec le produit en question
             $product->sizes()->attach($sizes);
 
-            /*
-            $random=rand(1,10);
-
-            $folder = $product->category_id == 1 ? 'hommes' : 'femmes'; // define the folder in which picking the image
-
-            // get a random image then store it
-            
-            $link = $random . '.jpg';
-            $file = file_get_contents(asset('images/' . $folder . '/' . $random . '.jpg'));
-            Storage::disk('local')->put($link, $file);
-
-            // store the image in DB
-            $product->picture()->create([
-                'title' => 'Titre de l\'image',
-                'link' => $link
-            ])->save();*/
+           
 
         });
     }

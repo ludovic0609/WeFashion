@@ -9,6 +9,7 @@ use DB;
 
 class CategoryController extends Controller
 {
+    //nombre de categorie par pages.
     protected $paginate = 15;
     /**
      * Display a listing of the resource.
@@ -17,11 +18,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        //recupere  toutes les catégories avec la pagination
         $categories = Category::paginate($this->paginate);
         
     
-
+        // retourne la view avec  les catégories
         return view('back.category.index', ['categories' => $categories]);
     }
 
@@ -32,7 +33,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        //retourne la view back pour crée une catégorie
         return view('back.category.create');
     }
 
@@ -42,10 +43,11 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // function pour crée une catégorie
     public function store(Request $request)
     {
         
-        //
+        //Verification du formulaire
         $this->validate($request, [
             'name' => 'required|string'
         ]);
@@ -72,10 +74,10 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    //retourne la view pour editer une catégorie
     public function edit(Category $category)
     {
-        //
-        
         return view('back.category.edit', compact('category'));
     }
 
@@ -86,16 +88,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    // function pour modifier une catégorie
     public function update(Request $request, $id)
     {
-        //
+        //verification des champs
         $this->validate($request, [
             'name' => 'required|string'
         ]);
 
         $category = Category::find($id); // associé les fillables
 
-        $category->update($request->all());
+        $category->update($request->all()); // mets à jour la catégorie
 
         return redirect()->route('adminCategory')->with('message', 'Catégorie bien modifié');
     }
@@ -108,35 +111,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
-        //$products = Product::pluck('category_id')->all();
-        
-        //$id=$category->id;
-        
-        
-
-        /*foreach ($products as $product){
-            DB::table('products')
-                    ->where('category_id', $id)
-                    ->update(['category_id' => NULL]);
-        }*/
-
+        // suppression de la catégorie
         $category->delete();
 
-
-        
-        
-
-
-
-        //Category::destroy($id);
-
-
-
-        
-
-
-        
 
         return redirect()->route('adminCategory')->with('message', 'La catégorie à bien été supprimé.');
     }
